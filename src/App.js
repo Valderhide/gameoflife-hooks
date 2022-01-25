@@ -1,78 +1,77 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState } from 'react';
 import { ButtonToolbar, DropdownButton, Dropdown, Button } from 'react-bootstrap';
 
-function Box (props){
+function Box(props) {
   let selectBox = () => {
     props.selectBox(props.row, props.col);
   }
 
-  return(
+  return (
     <div
-        className={props.boxClass}
-        id={props.id}
-        onClick={selectBox}
-      />
+      className={props.boxClass}
+      id={props.id}
+      onClick={selectBox}
+    />
   )
 }
 
-function Grid(props){
-  const width = (props.Cols * 14);
-    var rowsArr = [];
+function Grid({cols, rows, gridFull, selectBox}) {
+  const width = (cols * 14);
+  var rowsArr = [];
 
-    var boxClass = "";
-    for (var i = 0; i < props.Rows; i++) {
-      for (var j = 0; j < props.Cols; j++) {
-        let boxId = i + "_" + j;
+  var boxClass = "";
+  for (var i = 0; i < rows; i++) {
+    for (var j = 0; j < cols; j++) {
+      let boxId = i + "_" + j;
 
-        boxClass = props.gridFull[i][j] ? "box on" : "box off";
-        rowsArr.push(
-          <Box
-            boxClass={boxClass}
-            key={boxId}
-            boxId={boxId}
-            row={i}
-            col={j}
-            selectBox={this.props.selectBox}
-          />
-        );
-      }
+      boxClass = gridFull[i][j] ? "box on" : "box off";
+      rowsArr.push(
+        <Box
+          boxClass={boxClass}
+          key={boxId}
+          boxId={boxId}
+          row={i}
+          col={j}
+          selectBox={selectBox}
+        />
+      );
     }
-  return(
+  }
+  return (
     <div className="grid" style={{ width: width }}>
-        {rowsArr}
-      </div>
+      {rowsArr}
+    </div>
   )
 
 }
 
-function Buttons(props) {
+function Buttons({playButton, pauseButton, clear, slow, fast, seed, gridSize}) {
   return (
     <div className="center">
       <ButtonToolbar>
-        <Button variant="primary" onClick={props.playButton}>
+        <Button variant="primary" onClick={playButton}>
           Play
         </Button>
-        <Button variant="primary" onClick={props.pauseButton}>
+        <Button variant="primary" onClick={pauseButton}>
           Pause
         </Button>
-        <Button variant="primary" onClick={props.clear}>
+        <Button variant="primary" onClick={clear}>
           Clear
         </Button>
-        <Button variant="primary" onClick={props.slow}>
+        <Button variant="primary" onClick={slow}>
           Slow
         </Button>
-        <Button variant="primary" onClick={props.fast}>
+        <Button variant="primary" onClick={fast}>
           Fast
         </Button>
-        <Button variant="primary" onClick={props.seed}>
+        <Button variant="primary" onClick={seed}>
           Seed
         </Button>
         <DropdownButton
           title="Grid Size"
           id="size-menu"
-          onSelect={props.gridSize}
+          onSelect={gridSize}
         >
           <Dropdown.Item eventKey="1">20x10</Dropdown.Item>
           <Dropdown.Item eventKey="2">50x30</Dropdown.Item>
@@ -85,13 +84,13 @@ function Buttons(props) {
 }
 
 function App(selectBox) {
-  var Speed = 100;
-  var Rows = 30;
-  var Cols = 50;
+  const [speed, setSpeed] = useState(100);
+  const [rows, setRows] = useState(30);
+  const [cols, setCols] = useState(50);
 
   const [Generation, setGeneration] = useState(0);
   const [GridFull, setGridFull] = useState(
-    Array(Rows).fill().map(() => Array(Cols).fill(false)))
+    Array(rows).fill().map(() => Array(cols).fill(false)))
 
 
 
@@ -115,12 +114,12 @@ function App(selectBox) {
         seed={handleSeedButton}
         gridSize={handleGridSizeSelect}
       />
-<Grid>
-          gridFull={GridFull}
-          rows={Rows}
-          cols={Cols}
-          selectBox={selectBox}
-          </Grid>
+      <Grid
+        gridFull={GridFull}
+        rows={rows}
+        cols={cols}
+        selectBox={selectBox}>
+      </Grid>
     </div>
   );
 }
