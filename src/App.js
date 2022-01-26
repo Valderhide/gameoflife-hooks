@@ -105,16 +105,21 @@ function App(selectBox) {
   const handlePlayButton = () => {
     clearInterval(intervalId);
     var intervalId = setInterval(play, speed);
-    console.log("playbutton")
+    //console.log("playbutton");
   }
-  const handlePauseButton = () => {
-    console.log("pausebutton")
+  const handlePauseButton = (intervalId) => {
+    clearInterval(intervalId);
+    //console.log("pausebutton");
   }
-  const handleSlowButton = () => {
-    console.log("slowbutton")
+  const handleSlowButton = (setSpeed, handlePlayButton) => {
+    setSpeed(100);
+    //handlePlayButton();
+    //console.log("slowbutton")
   }
-  const handleFastButton = () => {
-    console.log("fastbutton")
+  const handleFastButton = (setSpeed, handlePlayButton) => {
+    setSpeed(1000);
+    //handlePlayButton();
+    //console.log("fastbutton")
   }
   const handleClearButton = () => {
     console.log("clearbutton")
@@ -122,8 +127,24 @@ function App(selectBox) {
   const handleSeedButton = () => {
     console.log("seedbutton")
   }
-  const handleGridSizeSelect = (item) => {
-    console.log("gridSizeselect", item)
+  const handleGridSizeSelect = (size) => {
+    switch (size) {
+      case "1":
+        setCols(20);
+        setRows(10);
+        break;
+      case "2":
+        setCols(50);
+        setRows(30);
+        break;
+      case"3":
+        setCols(70);
+        setRows(50);
+        break;
+    }
+    //this.clear();
+  
+    console.log("gridSizeselect", size)
   }
 
 
