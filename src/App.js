@@ -16,7 +16,7 @@ function Box(props) {
   )
 }
 
-function Grid({cols, rows, gridFull, selectBox}) {
+function Grid({ cols, rows, gridFull, selectBox }) {
   const width = (cols * 14);
   var rowsArr = [];
 
@@ -46,7 +46,7 @@ function Grid({cols, rows, gridFull, selectBox}) {
 
 }
 
-function Buttons({playButton, pauseButton, clear, slow, fast, seed, gridSize}) {
+function Buttons({ playButton, pauseButton, clear, slow, fast, seed, gridSize }) {
   return (
     <div className="center">
       <ButtonToolbar>
@@ -93,16 +93,39 @@ function App(selectBox) {
     Array(rows).fill().map(() => Array(cols).fill(false)))
 
 
+  selectBox = (row, col, gridFull) => {
+    let gridCopy = arrayClone(gridFull);
+    gridCopy[row][col] = !gridCopy[row][col];
+    this.setState({
+      gridFull: gridCopy
+    });
+  }
+
 
   const handlePlayButton = () => {
     console.log("playbutton")
   }
-  const handlePauseButton = () => console.log("pausebutton")
-  const handleSlowButton = () => console.log("slowbutton")
-  const handleFastButton = () => console.log("fastbutton")
-  const handleClearButton = () => console.log("clearbutton")
-  const handleSeedButton = () => console.log("seedbutton")
-  const handleGridSizeSelect = (item) => console.log("gridSizeselect", item)
+  const handlePauseButton = () => {
+    console.log("pausebutton")
+  }
+  const handleSlowButton = () => {
+    console.log("slowbutton")
+  }
+  const handleFastButton = () => {
+    console.log("fastbutton")
+  }
+  const handleClearButton = () => {
+    console.log("clearbutton")
+  }
+  const handleSeedButton = () => {
+    console.log("seedbutton")
+  }
+  const handleGridSizeSelect = (item) => {
+    console.log("gridSizeselect", item)
+  }
+
+
+
   return (
     <div className="App">
       <Buttons
@@ -123,5 +146,10 @@ function App(selectBox) {
     </div>
   );
 }
+
+function arrayClone({ GridFull }) {
+  return JSON.parse(JSON.stringify({ GridFull }));
+}
+
 
 export default App;
