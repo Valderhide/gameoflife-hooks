@@ -142,12 +142,13 @@ function App() {
     //console.log("pausebutton");
   }
   const handleSlowButton = () => {
-    setSpeed(100);
-    //handlePlayButton();
+    clearInterval(intervalId);
+    setSpeed(1000);
     //console.log("slowbutton")
   }
   const handleFastButton = () => {
-    setSpeed(1000);
+    clearInterval(intervalId);
+    setSpeed(100);
     //handlePlayButton();
     //console.log("fastbutton")
   }
@@ -155,7 +156,18 @@ function App() {
     console.log("clearbutton")
   }
   const handleSeedButton = () => {
-    console.log("seedbutton")
+    let gridCopy = arrayClone(GridFull);
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        if (Math.floor(Math.random() * 4) === 1) {
+          gridCopy[i][j] = true;
+        }
+      }
+    }
+    setGridFull(
+      gridCopy
+    );
+    //console.log("seedbutton")
   }
   const handleGridSizeSelect = (size) => {
     switch (size) {
