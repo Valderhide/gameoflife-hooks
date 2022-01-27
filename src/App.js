@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ButtonToolbar, DropdownButton, Dropdown, Button } from 'react-bootstrap';
 
 function Box(props) {
@@ -24,7 +24,6 @@ function Grid({ cols, rows, gridFull, selectBox }) {
   for (var i = 0; i < rows; i++) {
     for (var j = 0; j < cols; j++) {
       let boxId = i + "_" + j;
-
 
       boxClass = gridFull[i][j] ? "box on" : "box off";
       rowsArr.push(
@@ -106,21 +105,19 @@ function generate(gridFull, rows, cols) {
   return g2
 }
 
-
-
 function App() {
   const [speed, setSpeed] = useState(100);
   const [rows, setRows] = useState(30);
   const [cols, setCols] = useState(50);
   const [intervalId, setIntervalId] = useState(100)
   const [Generation, setGeneration] = useState(0);
+
   const [GridFull, setGridFull] = useState(
     Array(rows).fill().map(() => Array(cols).fill(false)))
+
   const gridUpdate = (rows, cols) => {
     setGridFull(Array(rows).fill().map(() => Array(cols).fill(false)))
   }
-
-  //console.log(GridFull)
 
   const selectBox = (row, col) => {
     let gridCopy = arrayClone(GridFull);
@@ -130,23 +127,26 @@ function App() {
     );
   }
 
-
   const handlePlayButton = () => {
     clearInterval(intervalId);
     var newIntervalId = setInterval(play, speed);
     setIntervalId(newIntervalId)
   }
+
   const handlePauseButton = () => {
     clearInterval(intervalId);
   }
+
   const handleSlowButton = () => {
     clearInterval(intervalId);
     setSpeed(1000);
   }
+
   const handleFastButton = () => {
     clearInterval(intervalId);
     setSpeed(100);
   }
+
   const handleClearButton = () => {
     clearInterval(intervalId);
     var grid = Array(rows).fill().map(() => Array(cols).fill(false))
@@ -155,6 +155,7 @@ function App() {
     );
     setGeneration(0)
   }
+
   const handleSeedButton = () => {
     let gridCopy = arrayClone(GridFull);
     for (let i = 0; i < rows; i++) {
@@ -168,6 +169,7 @@ function App() {
       gridCopy
     );
   }
+
   const handleGridSizeSelect = (size) => {
     handleClearButton();
     switch (size) {
@@ -187,7 +189,6 @@ function App() {
         gridUpdate(50, 70);
         break;
     }
-    //this.clear();
   }
 
 
