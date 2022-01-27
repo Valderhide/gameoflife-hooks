@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ButtonToolbar, DropdownButton, Dropdown, Button } from 'react-bootstrap';
 
 function Box(props) {
@@ -24,6 +24,7 @@ function Grid({ cols, rows, gridFull, selectBox }) {
   for (var i = 0; i < rows; i++) {
     for (var j = 0; j < cols; j++) {
       let boxId = i + "_" + j;
+
 
       boxClass = gridFull[i][j] ? "box on" : "box off";
       rowsArr.push(
@@ -83,40 +84,69 @@ function Buttons({ playButton, pauseButton, clear, slow, fast, seed, gridSize })
 
 }
 
-function App(selectBox) {
+function generate(gridFull, rows, cols) {
+  let g = gridFull;
+  let g2 = arrayClone(gridFull);
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let count = 0;
+      if (i > 0) if (g[i - 1][j]) count++;
+      if (i > 0 && j > 0) if (g[i - 1][j - 1]) count++;
+      if (i > 0 && j < cols - 1) if (g[i - 1][j + 1]) count++;
+      if (j < cols - 1) if (g[i][j + 1]) count++;
+      if (j > 0) if (g[i][j - 1]) count++;
+      if (i < rows - 1) if (g[i + 1][j]) count++;
+      if (i < rows - 1 && j > 0) if (g[i + 1][j - 1]) count++;
+      if (i < rows - 1 && j < cols - 1) if (g[i + 1][j + 1]) count++;
+      if (g[i][j] && (count < 2 || count > 3)) g2[i][j] = false;
+      if (!g[i][j] && count === 3) g2[i][j] = true;
+    }
+  }
+  return g2
+}
+
+
+
+function App() {
   const [speed, setSpeed] = useState(100);
   const [rows, setRows] = useState(30);
   const [cols, setCols] = useState(50);
-
+  const [intervalId, setIntervalId] = useState(100)
   const [Generation, setGeneration] = useState(0);
   const [GridFull, setGridFull] = useState(
     Array(rows).fill().map(() => Array(cols).fill(false)))
+  const gridUpdate = (rows, cols) => {
+    setGridFull(Array(rows).fill().map(() => Array(cols).fill(false)))
+  }
 
+  //console.log(GridFull)
 
-  selectBox = (row, col, gridFull) => {
-    let gridCopy = arrayClone(gridFull);
+  const selectBox = (row, col) => {
+    let gridCopy = arrayClone(GridFull);
     gridCopy[row][col] = !gridCopy[row][col];
-    this.setState({
-      gridFull: gridCopy
-    });
+    setGridFull(
+      gridCopy
+    );
   }
 
 
   const handlePlayButton = () => {
     clearInterval(intervalId);
-    var intervalId = setInterval(play, speed);
+    var newIntervalId = setInterval(play, speed);
+    setIntervalId(newIntervalId)
     //console.log("playbutton");
   }
-  const handlePauseButton = (intervalId) => {
+  const handlePauseButton = () => {
     clearInterval(intervalId);
     //console.log("pausebutton");
   }
-  const handleSlowButton = (setSpeed, handlePlayButton) => {
+  const handleSlowButton = () => {
     setSpeed(100);
     //handlePlayButton();
     //console.log("slowbutton")
   }
-  const handleFastButton = (setSpeed, handlePlayButton) => {
+  const handleFastButton = () => {
     setSpeed(1000);
     //handlePlayButton();
     //console.log("fastbutton")
@@ -132,47 +162,36 @@ function App(selectBox) {
       case "1":
         setCols(20);
         setRows(10);
+        gridUpdate(10, 20);
         break;
       case "2":
         setCols(50);
         setRows(30);
+        gridUpdate(30, 50);
         break;
-      case"3":
+      case "3":
         setCols(70);
         setRows(50);
+        gridUpdate(50, 70);
         break;
     }
     //this.clear();
-  
-    console.log("gridSizeselect", size)
   }
 
 
-  var play = (gridFull) => {
-    let g = gridFull;
-    let g2 = arrayClone(gridFull);
+  var play = () => {
 
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        let count = 0;
-        if (i > 0) if (g[i - 1][j]) count++;
-        if (i > 0 && j > 0) if (g[i - 1][j - 1]) count++;
-        if (i > 0 && j < cols - 1) if (g[i - 1][j + 1]) count++;
-        if (j < cols - 1) if (g[i][j + 1]) count++;
-        if (j > 0) if (g[i][j - 1]) count++;
-        if (i < rows - 1) if (g[i + 1][j]) count++;
-        if (i < rows - 1 && j > 0) if (g[i + 1][j - 1]) count++;
-        if (i < rows - 1 && j < cols - 1) if (g[i + 1][j + 1]) count++;
-        if (g[i][j] && (count < 2 || count > 3)) g2[i][j] = false;
-        if (!g[i][j] && count === 3) g2[i][j] = true;
-      }
-    }
-  
-  
+    setGridFull(
+      (lastGridFull) => generate(lastGridFull, rows, cols)
+    );
+    setGeneration(
+      (lastGeneration) => lastGeneration + 1
+    );
+
   }
-  
-  
-  
+
+
+
   return (
     <div className="App">
       <Buttons
@@ -195,8 +214,8 @@ function App(selectBox) {
   );
 }
 
-function arrayClone({GridFull}) {
-  return JSON.parse(JSON.stringify({GridFull }));
+function arrayClone(GridFull) {
+  return [...GridFull];
 }
 
 
