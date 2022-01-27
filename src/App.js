@@ -135,25 +135,25 @@ function App() {
     clearInterval(intervalId);
     var newIntervalId = setInterval(play, speed);
     setIntervalId(newIntervalId)
-    //console.log("playbutton");
   }
   const handlePauseButton = () => {
     clearInterval(intervalId);
-    //console.log("pausebutton");
   }
   const handleSlowButton = () => {
     clearInterval(intervalId);
     setSpeed(1000);
-    //console.log("slowbutton")
   }
   const handleFastButton = () => {
     clearInterval(intervalId);
     setSpeed(100);
-    //handlePlayButton();
-    //console.log("fastbutton")
   }
   const handleClearButton = () => {
-    console.log("clearbutton")
+    clearInterval(intervalId);
+    var grid = Array(rows).fill().map(() => Array(cols).fill(false))
+    setGridFull(
+      grid
+    );
+    setGeneration(0)
   }
   const handleSeedButton = () => {
     let gridCopy = arrayClone(GridFull);
@@ -167,9 +167,9 @@ function App() {
     setGridFull(
       gridCopy
     );
-    //console.log("seedbutton")
   }
   const handleGridSizeSelect = (size) => {
+    handleClearButton();
     switch (size) {
       case "1":
         setCols(20);
