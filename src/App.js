@@ -129,8 +129,13 @@ function App() {
 
   const handlePlayButton = () => {
     clearInterval(intervalId);
-    var newIntervalId = setInterval(play, speed);
+    startSim(speed);
+  }
+
+  const startSim = (newSpeed) => {
+    var newIntervalId = setInterval(play, newSpeed);
     setIntervalId(newIntervalId)
+    setSpeed(newSpeed);
   }
 
   const handlePauseButton = () => {
@@ -139,12 +144,12 @@ function App() {
 
   const handleSlowButton = () => {
     clearInterval(intervalId);
-    setSpeed(1000);
+    startSim(1000);
   }
 
   const handleFastButton = () => {
     clearInterval(intervalId);
-    setSpeed(100);
+    startSim(100);
   }
 
   const handleClearButton = () => {
