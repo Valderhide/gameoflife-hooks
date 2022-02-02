@@ -2,15 +2,15 @@ import './App.css';
 import React, { useState } from 'react';
 import { ButtonToolbar, DropdownButton, Dropdown, Button } from 'react-bootstrap';
 
-function Box(props) {
-  let selectBox = () => {
-    props.selectBox(props.row, props.col);
+function Box({ row, col, boxClass, id }) {
+  const selectBox = () => {
+    selectBox(row, col);
   }
 
   return (
     <div
-      className={props.boxClass}
-      id={props.id}
+      className={boxClass}
+      id={id}
       onClick={selectBox}
     />
   )
@@ -18,7 +18,7 @@ function Box(props) {
 
 function Grid({ cols, rows, gridFull, selectBox }) {
   const width = (cols * 14);
-  var rowsArr = [];
+  const rowsArr = [];
 
   var boxClass = "";
   for (var i = 0; i < rows; i++) {
@@ -46,36 +46,37 @@ function Grid({ cols, rows, gridFull, selectBox }) {
 
 }
 
-function Buttons({ playButton, pauseButton, clear, slow, fast, seed, gridSize }) {
+function SimulationControl({ onPlayClick, onPauseClick, onClearClick, onSlowClick, onFastClick, onSeedClick, ongridSizeClick }) {
   return (
     <div className="center">
       <ButtonToolbar>
-        <Button variant="primary" onClick={playButton}>
+        <Button variant="primary" onClick={onPlayClick}>
           Play
         </Button>
-        <Button variant="primary" onClick={pauseButton}>
+        <Button variant="primary" onClick={onPauseClick}>
           Pause
         </Button>
-        <Button variant="primary" onClick={clear}>
+        <Button variant="primary" onClick={onClearClick}>
           Clear
         </Button>
-        <Button variant="primary" onClick={slow}>
+        <Button variant="primary" onClick={onSlowClick}>
           Slow
         </Button>
-        <Button variant="primary" onClick={fast}>
+        <Button variant="primary" onClick={onFastClick}>
           Fast
         </Button>
-        <Button variant="primary" onClick={seed}>
+        <Button variant="primary" onClick={onSeedClick}>
           Seed
         </Button>
         <DropdownButton
           title="Grid Size"
           id="size-menu"
-          onSelect={gridSize}
+          onSelect={ongridSizeClick}
         >
           <Dropdown.Item eventKey="1">20x10</Dropdown.Item>
           <Dropdown.Item eventKey="2">50x30</Dropdown.Item>
           <Dropdown.Item eventKey="3">70x50</Dropdown.Item>
+          <Dropdown.Item eventKey="4">90x70</Dropdown.Item>
         </DropdownButton>
       </ButtonToolbar>
     </div>
@@ -83,9 +84,11 @@ function Buttons({ playButton, pauseButton, clear, slow, fast, seed, gridSize })
 
 }
 
+const makeGrid = (rows, cols, fillValue) => Array(rows).fill().map(() => Array(cols).fill(fillValue))
+
 function generate(gridFull, rows, cols) {
   let g = gridFull;
-  let g2 = arrayClone(gridFull);
+  let g2 = [...gridFull];
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
@@ -110,19 +113,21 @@ function App() {
   const [rows, setRows] = useState(30);
   const [cols, setCols] = useState(50);
   const [intervalId, setIntervalId] = useState(100)
-  const [Generation, setGeneration] = useState(0);
+  const [generation, setGeneration] = useState(0);
 
-  const [GridFull, setGridFull] = useState(
-    Array(rows).fill().map(() => Array(cols).fill(false)))
+  const [gridFull, setgridFull] = useState(
+    makeGrid(rows, cols, false))
 
   const gridUpdate = (rows, cols) => {
-    setGridFull(Array(rows).fill().map(() => Array(cols).fill(false)))
+    //setRows();
+    //setCols();
+    setgridFull(makeGrid(rows, cols, false))
   }
 
   const selectBox = (row, col) => {
-    let gridCopy = arrayClone(GridFull);
+    let gridCopy = [...gridFull];
     gridCopy[row][col] = !gridCopy[row][col];
-    setGridFull(
+    setgridFull(
       gridCopy
     );
   }
@@ -133,9 +138,18 @@ function App() {
   }
 
   const startSim = (newSpeed) => {
-    var newIntervalId = setInterval(play, newSpeed);
+    var newIntervalId = setInterval(simulation, newSpeed);
     setIntervalId(newIntervalId)
     setSpeed(newSpeed);
+  }
+
+  const simulation = () => {
+    setgridFull(
+      (lastgridFull) => generate(lastgridFull, rows, cols)
+    );
+    setGeneration(
+      (lastGeneration) => lastGeneration + 1
+    );
   }
 
   const handlePauseButton = () => {
@@ -154,15 +168,15 @@ function App() {
 
   const handleClearButton = () => {
     clearInterval(intervalId);
-    var grid = Array(rows).fill().map(() => Array(cols).fill(false))
-    setGridFull(
+    const grid = makeGrid(rows, cols, false)
+    setgridFull(
       grid
     );
     setGeneration(0)
   }
 
   const handleSeedButton = () => {
-    let gridCopy = arrayClone(GridFull);
+    let gridCopy = [...gridFull];
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
         if (Math.floor(Math.random() * 4) === 1) {
@@ -170,7 +184,7 @@ function App() {
         }
       }
     }
-    setGridFull(
+    setgridFull(
       gridCopy
     );
   }
@@ -193,47 +207,32 @@ function App() {
         setRows(50);
         gridUpdate(50, 70);
         break;
+      default:
+        throw new Error(`The size # ${size} is not handled in this switch.`);
     }
   }
 
 
-  var play = () => {
-
-    setGridFull(
-      (lastGridFull) => generate(lastGridFull, rows, cols)
-    );
-    setGeneration(
-      (lastGeneration) => lastGeneration + 1
-    );
-
-  }
-
-
-
   return (
     <div className="App">
-      <Buttons
-        playButton={handlePlayButton}
-        pauseButton={handlePauseButton}
-        slow={handleSlowButton}
-        fast={handleFastButton}
-        clear={handleClearButton}
-        seed={handleSeedButton}
-        gridSize={handleGridSizeSelect}
+      <SimulationControl
+        onPlayClick={handlePlayButton}
+        onPauseClick={handlePauseButton}
+        onSlowClick={handleSlowButton}
+        onFastClick={handleFastButton}
+        onClearClick={handleClearButton}
+        onSeedClick={handleSeedButton}
+        ongridSizeClick={handleGridSizeSelect}
       />
       <Grid
-        gridFull={GridFull}
+        gridFull={gridFull}
         rows={rows}
         cols={cols}
         selectBox={selectBox}>
       </Grid>
-      <h2>Generations:{Generation}</h2>
+      <h2>Generations:{generation}</h2>
     </div>
   );
-}
-
-function arrayClone(GridFull) {
-  return [...GridFull];
 }
 
 
