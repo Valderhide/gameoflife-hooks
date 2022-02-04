@@ -119,8 +119,8 @@ function App() {
     makeGrid(rows, cols, false))
 
   const gridUpdate = (rows, cols) => {
-    //setRows();
-    //setCols();
+    setRows(rows);
+    setCols(cols);
     setgridFull(makeGrid(rows, cols, false))
   }
 
@@ -193,18 +193,12 @@ function App() {
     handleClearButton();
     switch (size) {
       case "1":
-        setCols(20);
-        setRows(10);
         gridUpdate(10, 20);
         break;
       case "2":
-        setCols(50);
-        setRows(30);
         gridUpdate(30, 50);
         break;
       case "3":
-        setCols(70);
-        setRows(50);
         gridUpdate(50, 70);
         break;
       default:
