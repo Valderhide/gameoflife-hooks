@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/github.io/gameoflife-hooks/static/css/main.fc4505ba.css",
+    "main.js": "/github.io/gameoflife-hooks/static/js/main.c851778a.js",
+    "static/js/787.191e34d5.chunk.js": "/github.io/gameoflife-hooks/static/js/787.191e34d5.chunk.js",
+    "static/media/ring.jpeg": "/github.io/gameoflife-hooks/static/media/ring.287fef45b2e61f0400bf.jpeg",
+    "index.html": "/github.io/gameoflife-hooks/index.html",
+    "main.fc4505ba.css.map": "/github.io/gameoflife-hooks/static/css/main.fc4505ba.css.map",
+    "main.c851778a.js.map": "/github.io/gameoflife-hooks/static/js/main.c851778a.js.map",
+    "787.191e34d5.chunk.js.map": "/github.io/gameoflife-hooks/static/js/787.191e34d5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fc4505ba.css",
+    "static/js/main.c851778a.js"
+  ]
+}
