@@ -20,7 +20,7 @@ function Grid({ cols, rows, gridFull, selectBox }) {
   const width = (cols * 14);
   const rowsArr = [];
 
-  var boxClass = "";
+  let boxClass = "";
   for (var i = 0; i < rows; i++) {
     for (var j = 0; j < cols; j++) {
       let boxId = i + "_" + j;
@@ -76,7 +76,6 @@ function SimulationControl({ onPlayClick, onPauseClick, onClearClick, onSlowClic
           <Dropdown.Item eventKey="1">20x10</Dropdown.Item>
           <Dropdown.Item eventKey="2">50x30</Dropdown.Item>
           <Dropdown.Item eventKey="3">70x50</Dropdown.Item>
-          <Dropdown.Item eventKey="4">90x70</Dropdown.Item>
         </DropdownButton>
       </ButtonToolbar>
     </div>
@@ -115,19 +114,19 @@ function App() {
   const [intervalId, setIntervalId] = useState(100)
   const [generation, setGeneration] = useState(0);
 
-  const [gridFull, setgridFull] = useState(
+  const [gridFull, setGridFull] = useState(
     makeGrid(rows, cols, false))
 
   const gridUpdate = (rows, cols) => {
     setRows(rows);
     setCols(cols);
-    setgridFull(makeGrid(rows, cols, false))
+    setGridFull(makeGrid(rows, cols, false))
   }
 
   const selectBox = (row, col) => {
     let gridCopy = [...gridFull];
     gridCopy[row][col] = !gridCopy[row][col];
-    setgridFull(
+    setGridFull(
       gridCopy
     );
   }
@@ -138,13 +137,13 @@ function App() {
   }
 
   const startSim = (newSpeed) => {
-    var newIntervalId = setInterval(simulation, newSpeed);
+    const newIntervalId = setInterval(simulation, newSpeed);
     setIntervalId(newIntervalId)
     setSpeed(newSpeed);
   }
 
   const simulation = () => {
-    setgridFull(
+    setGridFull(
       (lastgridFull) => generate(lastgridFull, rows, cols)
     );
     setGeneration(
@@ -169,7 +168,7 @@ function App() {
   const handleClearButton = () => {
     clearInterval(intervalId);
     const grid = makeGrid(rows, cols, false)
-    setgridFull(
+    setGridFull(
       grid
     );
     setGeneration(0)
@@ -184,7 +183,7 @@ function App() {
         }
       }
     }
-    setgridFull(
+    setGridFull(
       gridCopy
     );
   }
