@@ -17,10 +17,10 @@ jobs:
       - name: Checkout
         used: actions/checkout@v1
 
-        name: Install and build
+      -  name: Install and build
         run: npm install && npm run build
 
-        name: Deploy
+      -  name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages # The branch the action should deploy to.
