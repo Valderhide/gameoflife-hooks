@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/github.io/gameoflife-hooks/static/css/main.fc4505ba.css",
-    "main.js": "/github.io/gameoflife-hooks/static/js/main.c851778a.js",
-    "static/js/787.191e34d5.chunk.js": "/github.io/gameoflife-hooks/static/js/787.191e34d5.chunk.js",
-    "static/media/ring.jpeg": "/github.io/gameoflife-hooks/static/media/ring.287fef45b2e61f0400bf.jpeg",
-    "index.html": "/github.io/gameoflife-hooks/index.html",
-    "main.fc4505ba.css.map": "/github.io/gameoflife-hooks/static/css/main.fc4505ba.css.map",
-    "main.c851778a.js.map": "/github.io/gameoflife-hooks/static/js/main.c851778a.js.map",
-    "787.191e34d5.chunk.js.map": "/github.io/gameoflife-hooks/static/js/787.191e34d5.chunk.js.map"
+    "main.css": "/gameoflife-hooks/static/css/main.91f87fcd.css",
+    "main.js": "/gameoflife-hooks/static/js/main.b1504f53.js",
+    "static/js/787.191e34d5.chunk.js": "/gameoflife-hooks/static/js/787.191e34d5.chunk.js",
+    "static/media/ring.jpeg": "/gameoflife-hooks/static/media/ring.287fef45b2e61f0400bf.jpeg",
+    "index.html": "/gameoflife-hooks/index.html",
+    "main.91f87fcd.css.map": "/gameoflife-hooks/static/css/main.91f87fcd.css.map",
+    "main.b1504f53.js.map": "/gameoflife-hooks/static/js/main.b1504f53.js.map",
+    "787.191e34d5.chunk.js.map": "/gameoflife-hooks/static/js/787.191e34d5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fc4505ba.css",
-    "static/js/main.c851778a.js"
+    "static/css/main.91f87fcd.css",
+    "static/js/main.b1504f53.js"
   ]
 }
