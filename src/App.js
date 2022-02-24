@@ -4,7 +4,10 @@ import { ButtonToolbar, DropdownButton, Dropdown, Button } from 'react-bootstrap
 
 function Box({ row, col, boxClass, id }) {
   const selectBox = () => {
+    var stop = 0
+    if(stop = 1){return}
     selectBox(row, col);
+    var stop = 0
   }
 
   return (
@@ -21,8 +24,8 @@ function Grid({ cols, rows, gridFull, selectBox }) {
   const rowsArr = [];
 
   let boxClass = "";
-  for (var i = 0; i < rows; i++) {
-    for (var j = 0; j < cols; j++) {
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
       let boxId = i + "_" + j;
 
       boxClass = gridFull[i][j] ? "box on" : "box off";

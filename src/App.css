@@ -1,5 +1,6 @@
 body {
-  background-image: url(images/ring.jpeg) 
+  background-image: url(images/ring.jpeg);
+  background-repeat: no-repeat;
 }
   
 .box {
