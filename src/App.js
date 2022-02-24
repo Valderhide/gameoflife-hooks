@@ -7,7 +7,7 @@ function Box({ row, col, boxClass, id }) {
     var stop = 0
     if(stop = 1){return}
     selectBox(row, col);
-    var stop = 0
+    var stop = 1
   }
 
   return (
@@ -24,8 +24,8 @@ function Grid({ cols, rows, gridFull, selectBox }) {
   const rowsArr = [];
 
   let boxClass = "";
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
+  for (var i = 0; i < rows; i++) {
+    for (var j = 0; j < cols; j++) {
       let boxId = i + "_" + j;
 
       boxClass = gridFull[i][j] ? "box on" : "box off";
