@@ -2,19 +2,16 @@ import './App.css';
 import React, { useState } from 'react';
 import { ButtonToolbar, DropdownButton, Dropdown, Button } from 'react-bootstrap';
 
-function Box({ row, col, boxClass, id }) {
-  const selectBox = () => {
-    var stop = 0
-    if(stop = 1){return}
+function Box({ row, col, boxClass, id, selectBox}) {
+  const onClick = () => {
     selectBox(row, col);
-    var stop = 1
   }
 
   return (
     <div
       className={boxClass}
       id={id}
-      onClick={selectBox}
+      onClick={onClick}
     />
   )
 }
